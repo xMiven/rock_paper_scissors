@@ -1,7 +1,7 @@
 function computerPlay() {
     //make the computer return rock, paper or scissors
     let cpu = "";
-    switch (Math.floor(Math.random()*3)) {
+    switch (Math.floor(Math.random() * 3)) {
         case 0:
             cpu = "Rock";
             break;
@@ -15,88 +15,85 @@ function computerPlay() {
     }
     console.log(cpu)
 
+    return cpu;
 }
 
 function playRound(player, cpu) {
     //compare user input and computer input
-    let cpuScore = 0;
-    let playerScore = 0;
     console.log(player);
-    if ((player.toUpperCase() != "ROCK") && (player.toUpperCase() != "PAPER") && (player.toUpperCase() != "SCISSORS")){
-        console.log("Please select a proper option")
-        playRound()
-    } else {
-        switch (player.toUpperCase()){
-                case "ROCK":
-                if (cpu == "Rock"){
-                    console.log("The computer plays " + cpu + ", tie!");
-                } else if (cpu == "Paper") {
-                    console.log("The computer plays " + cpu + ", you lose!");
-                    ++cpuScore;
-                } else if (cpu == "Scissors") {
-                    console.log("The computer plays " + cpu + ", you win!");
-                    ++playerScore;
-                }
-                break;
+    switch (player.toUpperCase()) {
+        case "ROCK":
+            if (cpu == "Rock") {
+                console.log("The computer plays " + cpu + ", tie!");
+            } else if (cpu == "Paper") {
+                console.log("The computer plays " + cpu + ", you lose!");
+                ++cpu;
+            } else if (cpu == "Scissors") {
+                console.log("The computer plays " + cpu + ", you win!");
+                ++player;
+            }
+            break;
 
-                case "PAPER":
-                    if (cpu == "Rock"){
-                        console.log("The computer plays " + cpu + ", you win!");
-                        ++playerScore;
-                    } else if (cpu == "Paper") {
-                        console.log("The computer plays " + cpu + ", tie!");
-                    } else if (cpu == "Scissors") {
-                        console.log("The computer plays " + cpu + ", you lose!");
-                        ++cpuScore;
-                    }
-                    break;
-                case "SCISSORS":
-                    if (cpu == "Rock"){
-                        console.log("The computer plays " + cpu + ", you lose!");
-                        ++cpuScore;
-                    } else if (cpu == "Paper") {
-                        console.log("The computer plays " + cpu + ", you win!");
-                        ++playerScore;
-                    } else if (cpu == "Scissors") {
-                        console.log("The computer plays " + cpu + ", tie!");
-                    }
-                    break;
-                }
-            return [cpuScore,playerScore];
+        case "PAPER":
+            if (cpu == "Rock") {
+                console.log("The computer plays " + cpu + ", you win!");
+                ++player;
+            } else if (cpu == "Paper") {
+                console.log("The computer plays " + cpu + ", tie!");
+            } else if (cpu == "Scissors") {
+                console.log("The computer plays " + cpu + ", you lose!");
+                ++cpu;
+            }
+            break;
+        case "SCISSORS":
+            if (cpu == "Rock") {
+                console.log("The computer plays " + cpu + ", you lose!");
+                ++cpu;
+            } else if (cpu == "Paper") {
+                console.log("The computer plays " + cpu + ", you win!");
+                ++player;
+            } else if (cpu == "Scissors") {
+                console.log("The computer plays " + cpu + ", tie!");
+            }
+            break;
     }
-// to do-> pass variable 
-    }
+    return [cpu, player];
 
-function game() {
+    // to do-> pass variable 
+}
+
+function validateInput(player) {
+    let options = ["ROCK","PAPER","SCISSORS"];
+    return (player != null && player != undefined && options.includes(player.toUpperCase())) ? false : true;
+}
+
+function game(rounds) {
     //loop the game 5 times, keep track of the score
-    let cpuScore = 0;
-    let playerScore = 0;
-    let x = 0;
-    while (x<5) {
-        let player = prompt("Please select rock, paper or scissors");
-        if (player == null) {
-            console.log("Please refresh and enter a value");
-            x = 5;
-        } else {
-            let cpu = computerPlay();
-            playRound(player,cpu);
-            let score = playRound();
-            playerScore = playerScore + score[1];
-            cpuScore = cpuScore + score[0];
-            console.log("The current score is:");
-            console.log("You: " + playerScore + " wins");
-            console.log("Computer: " + cpuScore + " wins")
+    for (i=0; i < rounds; i++) {
+        let cpu = computerPlay();
+        let player= "";
+        let isWrong = true;
+        while (isWrong) {
+            player = prompt("Please select rock, paper or scissors");
+            isWrong = validateInput(player);
         }
-        ++x;
+
+        let score = playRound(player, cpu);
+        console.log("The current score is:");
+        console.log(`You: ${player} wins`);
+        console.log(`Computer: ${cpu} wins`);
     }
-    if (playerScore > cpuScore) {
-        console.log("You win the game!")
-    } else if (playerScore < cpuScore) {
-        console.log("The computer wins the game!")
-    } else if (playerScore == cpuScore) {
-        console.log("It's a tie game!")
+    if (player > cpu) {
+        console.log("You win the game!");
+    } else if (player < cpu) {
+        console.log("The computer wins the game!");
+    } else if (player == cpu) {
+        console.log("It's a tie game!");
     }
 
-    }
+}
 
-    game();
+let cpu = 0;
+let player = 0;
+
+game(5);
