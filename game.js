@@ -21,6 +21,7 @@ function playRound(player, cpu) {
     //compare user input and computer input
     let cpuScore = 0;
     let playerScore = 0;
+    console.log(player);
     if ((player.toUpperCase() != "ROCK") && (player.toUpperCase() != "PAPER") && (player.toUpperCase() != "SCISSORS")){
         console.log("Please select a proper option")
         playRound()
@@ -61,10 +62,7 @@ function playRound(player, cpu) {
                     }
                     break;
                 }
-            return {
-                cpuScore,
-                playerScore
-            };  
+            return [cpuScore,playerScore];
     }
 // to do-> pass variable 
     }
@@ -78,12 +76,13 @@ function game() {
         let player = prompt("Please select rock, paper or scissors");
         if (player == null) {
             console.log("Please refresh and enter a value");
+            x = 5;
         } else {
             let cpu = computerPlay();
-            playRound(player,cpu)
+            playRound(player,cpu);
             let score = playRound();
-            playerScore = playerScore + score.playerScore;
-            cpuScore = cpuScore + score.cpuScore;
+            playerScore = playerScore + score[1];
+            cpuScore = cpuScore + score[0];
             console.log("The current score is:");
             console.log("You: " + playerScore + " wins");
             console.log("Computer: " + cpuScore + " wins")
